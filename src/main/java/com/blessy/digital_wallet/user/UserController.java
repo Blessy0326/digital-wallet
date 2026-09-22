@@ -1,5 +1,6 @@
 package com.blessy.digital_wallet.user;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse createUser(@RequestBody CreateUserRequest request) {
+    public UserResponse createUser(@Valid @RequestBody CreateUserRequest request) {
         return userService.createUser(request);
     }
 
