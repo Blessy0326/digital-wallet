@@ -15,6 +15,9 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    private Long version;
+
     @Column(nullable = false, unique = true, updatable = false)
     private String accountNumber;
 
@@ -70,4 +73,5 @@ public class Account {
     public BigDecimal getBalance() { return balance; }
     public String getCurrency() { return currency; }
     public Instant getCreatedAt() { return createdAt; }
+    public Long getVersion() { return version; }
 }

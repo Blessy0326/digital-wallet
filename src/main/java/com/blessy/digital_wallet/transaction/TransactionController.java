@@ -38,4 +38,11 @@ public class TransactionController {
             @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
         return transactionService.getTransactions(accountId, pageable);
     }
+
+    @PostMapping("/transfers")
+    @ResponseStatus(HttpStatus.CREATED)
+    public TransactionResponse transfer(@PathVariable Long accountId,
+                                        @Valid @RequestBody TransferRequest request) {
+        return transactionService.transfer(accountId, request);
+    }
 }
