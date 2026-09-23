@@ -1,5 +1,6 @@
 package com.blessy.digital_wallet.account;
 
+import com.blessy.digital_wallet.common.exception.InsufficientFundsException;
 import com.blessy.digital_wallet.user.User;
 import jakarta.persistence.*;
 
@@ -40,6 +41,27 @@ public class Account {
         this.currency = currency;
         this.balance = BigDecimal.ZERO;
         this.createdAt = Instant.now();
+    }
+
+    public void credit(BigDecimal amount) {
+        validateAmount(amount);
+        this.balance = this.balance.add(amount);
+    }
+
+    public void debit(BigDecimal amount) {
+        validateAmount(amount);
+        if (this.balance.compareTo(amount) < 0) {
+            throw new InsufficientFundsException(
+                    "Insufficient funds in account " + accountNumber
+                            + ": balance " + balance + ", requested " + amount);
+        }
+        this.balance = this.balance.subtract(amount);
+    }
+
+    private void validateAmount(BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than zero");
+        }
     }
 
     public Long getId() { return id; }
